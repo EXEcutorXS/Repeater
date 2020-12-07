@@ -1,9 +1,0 @@
-common.c:10:10:_pow10	24	static
-common.c:20:10:pow16	16	static
-common.c:25:10:DecToInt	32	static
-common.c:41:10:HexToInt	32	static
-common.c:88:9:bcdToBin	24	static
-common.c:100:9:binToBcd	24	static
-common.c:113:6:arrayToHexString	32	static
-common.c:127:6:delayMicro	16	static
-common.c:133:9:crc8	32	static
