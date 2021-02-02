@@ -131,7 +131,6 @@ uint8_t tryLoadSettings()
 	return 0;
 }
 
-<<<<<<< HEAD
 void useDefaultSettings()
 {
 	settings.realFrequency1=DEF_FREQUENCY;
@@ -151,25 +150,6 @@ void useDefaultSettings()
 	settings.sw2=1;
 
 settingsInitiate();
-=======
-void useDefaultSettings() {
-	settings.realFrequency1 = DEF_FREQUENCY2;
-	settings.sf1 = 12;
-	settings.bw1 = 7;
-	settings.cr1 = 4;
-	settings.power1 = 20;
-	settings.preamble1 = 5;
-	settings.sw1 = 1;
-
-	settings.realFrequency2 = DEF_FREQUENCY_BASE;
-	settings.sf2 = 10;
-	settings.bw2 = 7;
-	settings.cr2 = 4;
-	settings.power2 = 14;
-	settings.preamble2 = 5;
-	settings.sw2 = 1;
-
-	settingsInitiate();
 }
 
 void RadioInit()
@@ -254,18 +234,11 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 
-=======
- */
-int main(void) {
-	/* USER CODE BEGIN 1 */
->>>>>>> parent of a1d7303... 1123
 
   /* USER CODE END 1 */
   
 
-<<<<<<< HEAD
   /* MCU Configuration--------------------------------------------------------*/
-=======
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
