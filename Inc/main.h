@@ -32,7 +32,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "SX127x.h"
+#include "sx127x.h"
 #include "common.h"
 #include "otisProtocol.h"
 #include "RepeaterUart.h"

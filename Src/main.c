@@ -131,6 +131,7 @@ uint8_t tryLoadSettings()
 	return 0;
 }
 
+<<<<<<< HEAD
 void useDefaultSettings()
 {
 	settings.realFrequency1=DEF_FREQUENCY;
@@ -150,6 +151,26 @@ void useDefaultSettings()
 	settings.sw2=1;
 
 settingsInitiate();
+=======
+void useDefaultSettings() {
+	settings.realFrequency1 = DEF_FREQUENCY2;
+	settings.sf1 = 12;
+	settings.bw1 = 7;
+	settings.cr1 = 4;
+	settings.power1 = 20;
+	settings.preamble1 = 5;
+	settings.sw1 = 1;
+
+	settings.realFrequency2 = DEF_FREQUENCY_BASE;
+	settings.sf2 = 10;
+	settings.bw2 = 7;
+	settings.cr2 = 4;
+	settings.power2 = 14;
+	settings.preamble2 = 5;
+	settings.sw2 = 1;
+
+	settingsInitiate();
+>>>>>>> parent of a1d7303... 1123
 }
 
 void RadioInit()
@@ -224,6 +245,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart)
 }
 
 
+<<<<<<< HEAD
 /* USER CODE END 0 */
 
 /**
@@ -234,11 +256,23 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 
+=======
+/**
+ * @brief  The application entry point.
+ * @retval int
+ */
+int main(void) {
+	/* USER CODE BEGIN 1 */
+>>>>>>> parent of a1d7303... 1123
 
   /* USER CODE END 1 */
   
 
+<<<<<<< HEAD
   /* MCU Configuration--------------------------------------------------------*/
+=======
+	/* MCU Configuration--------------------------------------------------------*/
+>>>>>>> parent of a1d7303... 1123
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
@@ -290,6 +324,7 @@ int main(void)
 
 		}
 
+<<<<<<< HEAD
 		if (myRadio1.readBytes>0)
 		{
 			memcpy(myRadio2.txBuf,myRadio1.rxBuf,myRadio1.readBytes);
@@ -310,11 +345,45 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+=======
+		if (myRadio1.readBytes > 0) {
+			PutToStack(1, myRadio1.readBytes, myRadio1.rxBuf);
+			myRadio1.readBytes = 0;
+		}
+
+		if (myRadio2.readBytes > 0) {
+			PutToStack(0, myRadio2.readBytes, myRadio2.rxBuf);
+			myRadio2.readBytes = 0;
+		}
+
+		for (int i = 0; i < 3; i++) {
+			if (StackSize[0][i] > 0 && myRadio1.status == RX) {
+				memcpy(myRadio1.txBuf,Stack[0][i],StackSize[0][i]);
+				SX127X_transmitAsync(&myRadio1, StackSize[0][i]);
+				StackSize[0][i] = 0;
+			}
+		}
+
+		for (int i = 0; i < 3; i++) {
+			if (StackSize[1][i] > 0 && myRadio2.status == RX) {
+				memcpy(myRadio2.txBuf,Stack[1][i],StackSize[1][i]);
+				SX127X_transmitAsync(&myRadio2, StackSize[0][i]);
+				StackSize[1][i] = 0;
+			}
+		}
+
+		LedRoutine();
+
+		/* USER CODE END WHILE */
+
+		/* USER CODE BEGIN 3 */
+>>>>>>> parent of a1d7303... 1123
 	}
   /* USER CODE END 3 */
 }
 
 /**
+<<<<<<< HEAD
   * @brief System Clock Configuration
   * @retval None
   */
@@ -357,6 +426,71 @@ void SystemClock_Config(void)
   */
 static void MX_SPI1_Init(void)
 {
+=======
+ * @brief System Clock Configuration
+ * @retval None
+ */
+void SystemClock_Config(void) {
+	RCC_OscInitTypeDef RCC_OscInitStruct = { 0 };
+	RCC_ClkInitTypeDef RCC_ClkInitStruct = { 0 };
+
+	/** Initializes the CPU, AHB and APB busses clocks
+	 */
+	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+	RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+	RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI_DIV2;
+	RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL16;
+	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
+		Error_Handler();
+	}
+	/** Initializes the CPU, AHB and APB busses clocks
+	 */
+	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
+			| RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK) {
+		Error_Handler();
+	}
+}
+
+/**
+ * @brief SPI1 Initialization Function
+ * @param None
+ * @retval None
+ */
+static void MX_SPI1_Init(void) {
+
+	/* USER CODE BEGIN SPI1_Init 0 */
+
+	/* USER CODE END SPI1_Init 0 */
+
+	/* USER CODE BEGIN SPI1_Init 1 */
+
+	/* USER CODE END SPI1_Init 1 */
+	/* SPI1 parameter configuration*/
+	hspi1.Instance = SPI1;
+	hspi1.Init.Mode = SPI_MODE_MASTER;
+	hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+	hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+	hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+	hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+	hspi1.Init.NSS = SPI_NSS_SOFT;
+	hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
+	hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+	hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+	hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+	hspi1.Init.CRCPolynomial = 10;
+	if (HAL_SPI_Init(&hspi1) != HAL_OK) {
+		Error_Handler();
+	}
+	/* USER CODE BEGIN SPI1_Init 2 */
+>>>>>>> parent of a1d7303... 1123
 
   /* USER CODE BEGIN SPI1_Init 0 */
 
@@ -389,6 +523,7 @@ static void MX_SPI1_Init(void)
 }
 
 /**
+<<<<<<< HEAD
   * @brief USART1 Initialization Function
   * @param None
   * @retval None
@@ -456,6 +591,28 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LED1_GPIO_Port, &GPIO_InitStruct);
+=======
+ * @retval None
+ */
+static void MX_GPIO_Init(void) {
+	HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
+
+	/*Configure GPIO pins : LED2_Pin NSS2_Pin RESET2_Pin RESET1_Pin
+	 NSS1_Pin */
+	GPIO_InitStruct.Pin = LED2_Pin | NSS2_Pin | RESET2_Pin | RESET1_Pin
+			| NSS1_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+	/*Configure GPIO pin : LED1_Pin */
+	GPIO_InitStruct.Pin = LED1_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(LED1_GPIO_Port, &GPIO_InitStruct);
+>>>>>>> parent of a1d7303... 1123
 
 }
 
@@ -464,12 +621,20 @@ static void MX_GPIO_Init(void)
 /* USER CODE END 4 */
 
 /**
+<<<<<<< HEAD
   * @brief  This function is executed in case of error occurrence.
   * @retval None
   */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
+=======
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
+void Error_Handler(void) {
+	/* USER CODE BEGIN Error_Handler_Debug */
+>>>>>>> parent of a1d7303... 1123
 	/* User can add his own implementation to report the HAL error return state */
 
   /* USER CODE END Error_Handler_Debug */
