@@ -48,8 +48,7 @@ UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 
-uint8_t buf1[32];
-uint8_t buf2[32];
+char string[32];
 
 SX127X_t myRadio1;
 SX127X_t myRadio2;
@@ -184,15 +183,9 @@ void RadioInit()
 	if (tryLoadSettings()==0)
 		useDefaultSettings();
 
-	SX127X_readAllRegisters(&myRadio1, buf1);
-	SX127X_readAllRegisters(&myRadio2, buf2);
 
 	SX127X_init(&myRadio1);
 	SX127X_init(&myRadio2);
-
-	SX127X_readAllRegisters(&myRadio1, buf1);
-	SX127X_readAllRegisters(&myRadio2, buf2);
-
 
 	SX127X_config(&myRadio1);
 	SX127X_config(&myRadio2);
@@ -200,7 +193,7 @@ void RadioInit()
 
 void LedRoutine()
 {
-	uint8_t blinker = (HAL_GetTick()%100)>50;
+	uint8_t blinker = (HAL_GetTick()%50)>25;
 
 if (myRadio1.status == TX)
 	HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
@@ -292,14 +285,32 @@ int main(void)
 
 		if (myRadio1.readBytes>0)
 		{
+			if (myRadio1.badCrc)
+			{
+				sprintf(string,"1->2: Bad CRC\n",myRadio1.rxBuf[0],myRadio1.rxBuf[1],myRadio1.rxBuf[2]);
+				HAL_UART_Transmit(&huart1, (uint8_t*)string, 15, 100);
+				myRadio1.readBytes=0;
+				continue;
+			}
 			memcpy(myRadio2.txBuf,myRadio1.rxBuf,myRadio1.readBytes);
+			sprintf(string,"1->2: %02x %02x %02x\n",myRadio1.rxBuf[0],myRadio1.rxBuf[1],myRadio1.rxBuf[2]);
+			HAL_UART_Transmit(&huart1, (uint8_t*)string, 15, 100);
 			SX127X_transmitAsync(&myRadio2,myRadio1.readBytes);
 			myRadio1.readBytes=0;
 		}
 
 		if (myRadio2.readBytes>0)
 		{
-			memcpy(myRadio1.txBuf,myRadio2.rxBuf,myRadio1.readBytes);
+			if (myRadio2.badCrc)
+			{
+				sprintf(string,"2->1: Bad CRC\n",myRadio1.rxBuf[0],myRadio1.rxBuf[1],myRadio1.rxBuf[2]);
+				HAL_UART_Transmit(&huart1, (uint8_t*)string, 15, 100);
+				myRadio2.readBytes=0;
+				continue;
+			}
+			memcpy(myRadio1.txBuf,myRadio2.rxBuf,myRadio2.readBytes);
+			sprintf(string,"2->1: %02x %02x %02x\n",myRadio2.rxBuf[0],myRadio2.rxBuf[1],myRadio2.rxBuf[2]);
+			HAL_UART_Transmit(&huart1, (uint8_t*)string, 15, 100);
 			SX127X_transmitAsync(&myRadio1,myRadio2.readBytes);
 			myRadio2.readBytes=0;
 		}
