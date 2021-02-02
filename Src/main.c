@@ -287,7 +287,7 @@ int main(void)
 		{
 			if (myRadio1.badCrc)
 			{
-				sprintf(string,"1->2: Bad CRC\n",myRadio1.rxBuf[0],myRadio1.rxBuf[1],myRadio1.rxBuf[2]);
+				sprintf(string,"1->2: Bad CRC\n");
 				HAL_UART_Transmit(&huart1, (uint8_t*)string, 15, 100);
 				myRadio1.readBytes=0;
 				continue;
@@ -303,7 +303,7 @@ int main(void)
 		{
 			if (myRadio2.badCrc)
 			{
-				sprintf(string,"2->1: Bad CRC\n",myRadio1.rxBuf[0],myRadio1.rxBuf[1],myRadio1.rxBuf[2]);
+				sprintf(string,"2->1: Bad CRC\n");
 				HAL_UART_Transmit(&huart1, (uint8_t*)string, 15, 100);
 				myRadio2.readBytes=0;
 				continue;
