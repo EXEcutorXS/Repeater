@@ -32,9 +32,9 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "SX1276.h"
+#include "SX127x.h"
 #include "common.h"
-#include "protocol.h"
+#include "otisProtocol.h"
 #include "RepeaterUart.h"
 #include "string.h"
 /* USER CODE END Includes */

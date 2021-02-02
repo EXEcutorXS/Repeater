@@ -47,7 +47,6 @@ SPI_HandleTypeDef hspi1;
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
-<<<<<<< HEAD
 
 uint8_t buf1[32];
 uint8_t buf2[32];
@@ -57,10 +56,6 @@ uint8_t StackSize[2][3];
 
 SX127X_t myRadio1;
 SX127X_t myRadio2;
-=======
-SX1276_t myRadio1;
-SX1276_t myRadio2;
->>>>>>> parent of 691b973... 290121
 repeaterSettings_t settings;
 char error[40];
 flag_t flag;
@@ -150,7 +145,6 @@ uint8_t tryLoadSettings() {
 														}
 	return 0;
 }
-<<<<<<< HEAD
 
 void useDefaultSettings() {
 	settings.realFrequency1 = DEF_FREQUENCY2;
@@ -250,21 +244,10 @@ void PutToStack(uint8_t stackNum, uint8_t size, uint8_t *ptr) {
  * @retval int
  */
 int main(void) {
-=======
-/* USER CODE END 0 */
-
-/**
-* @brief  The application entry point.
-* @retval int
-*/
-int main(void)
-{
->>>>>>> parent of 691b973... 290121
 	/* USER CODE BEGIN 1 */
 
 	/* USER CODE END 1 */
 
-<<<<<<< HEAD
 	/* MCU Configuration--------------------------------------------------------*/
 
 	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -343,64 +326,12 @@ HAL_Delay(10);
 
 		/* USER CODE END WHILE */
 
-=======
-
-	/* MCU Configuration--------------------------------------------------------*/
-
-	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-	HAL_Init();
-
-	/* USER CODE BEGIN Init */
-
-	/* USER CODE END Init */
-
-	/* Configure the system clock */
-	SystemClock_Config();
-
-	/* USER CODE BEGIN SysInit */
-
-	/* USER CODE END SysInit */
-
-	/* Initialize all configured peripherals */
-	MX_GPIO_Init();
-	MX_SPI1_Init();
-	MX_USART1_UART_Init();
-	/* USER CODE BEGIN 2 */
-
-	/* USER CODE END 2 */
-
-	/* Infinite loop */
-	/* USER CODE BEGIN WHILE */
-	SX1276_config(&myRadio1);
-	SX1276_config(&myRadio2);
-	SX1276_init(&myRadio1);
-	SX1276_init(&myRadio2);
-
-	while (1)
-	{
-		SX1276_activity(&myRadio1);
-		SX1276_activity(&myRadio2);
-		if (myRadio1.readBytes>0)
-		{
-			SX1276_transmit(&myRadio2, myRadio1.rxBuf, myRadio1.readBytes, 1000);
-			myRadio1.readBytes=0;
-		}
-		if (myRadio2.readBytes>0)
-		{
-			SX1276_transmit(&myRadio1, myRadio2.rxBuf, myRadio2.readBytes, 1000);
-			myRadio2.readBytes=0;
-		}
-
-		/* USER CODE END WHILE */
-
->>>>>>> parent of 691b973... 290121
 		/* USER CODE BEGIN 3 */
 	}
 	/* USER CODE END 3 */
 }
 
 /**
-<<<<<<< HEAD
  * @brief System Clock Configuration
  * @retval None
  */
@@ -429,56 +360,16 @@ void SystemClock_Config(void) {
 	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
 	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK) {
-=======
-* @brief System Clock Configuration
-* @retval None
-*/
-void SystemClock_Config(void)
-{
-	RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-
-	/** Initializes the CPU, AHB and APB busses clocks
-*/
-	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-	RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-	RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	/** Initializes the CPU, AHB and APB busses clocks
-*/
-	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-	|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
-	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-
-	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
-	{
->>>>>>> parent of 691b973... 290121
 		Error_Handler();
 	}
 }
 
 /**
-<<<<<<< HEAD
  * @brief SPI1 Initialization Function
  * @param None
  * @retval None
  */
 static void MX_SPI1_Init(void) {
-=======
-* @brief SPI1 Initialization Function
-* @param None
-* @retval None
-*/
-static void MX_SPI1_Init(void)
-{
->>>>>>> parent of 691b973... 290121
 
 	/* USER CODE BEGIN SPI1_Init 0 */
 
@@ -500,12 +391,7 @@ static void MX_SPI1_Init(void)
 	hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
 	hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
 	hspi1.Init.CRCPolynomial = 10;
-<<<<<<< HEAD
 	if (HAL_SPI_Init(&hspi1) != HAL_OK) {
-=======
-	if (HAL_SPI_Init(&hspi1) != HAL_OK)
-	{
->>>>>>> parent of 691b973... 290121
 		Error_Handler();
 	}
 	/* USER CODE BEGIN SPI1_Init 2 */
@@ -515,20 +401,11 @@ static void MX_SPI1_Init(void)
 }
 
 /**
-<<<<<<< HEAD
  * @brief USART1 Initialization Function
  * @param None
  * @retval None
  */
 static void MX_USART1_UART_Init(void) {
-=======
-* @brief USART1 Initialization Function
-* @param None
-* @retval None
-*/
-static void MX_USART1_UART_Init(void)
-{
->>>>>>> parent of 691b973... 290121
 
 	/* USER CODE BEGIN USART1_Init 0 */
 
@@ -545,12 +422,7 @@ static void MX_USART1_UART_Init(void)
 	huart1.Init.Mode = UART_MODE_TX_RX;
 	huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
 	huart1.Init.OverSampling = UART_OVERSAMPLING_16;
-<<<<<<< HEAD
 	if (HAL_UART_Init(&huart1) != HAL_OK) {
-=======
-	if (HAL_UART_Init(&huart1) != HAL_OK)
-	{
->>>>>>> parent of 691b973... 290121
 		Error_Handler();
 	}
 	/* USER CODE BEGIN USART1_Init 2 */
@@ -560,49 +432,28 @@ static void MX_USART1_UART_Init(void)
 }
 
 /**
-<<<<<<< HEAD
  * @brief GPIO Initialization Function
  * @param None
  * @retval None
  */
 static void MX_GPIO_Init(void) {
 	GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-=======
-* @brief GPIO Initialization Function
-* @param None
-* @retval None
-*/
-static void MX_GPIO_Init(void)
-{
-	GPIO_InitTypeDef GPIO_InitStruct = {0};
->>>>>>> parent of 691b973... 290121
 
 	/* GPIO Ports Clock Enable */
 	__HAL_RCC_GPIOA_CLK_ENABLE();
 	__HAL_RCC_GPIOB_CLK_ENABLE();
 
 	/*Configure GPIO pin Output Level */
-<<<<<<< HEAD
 	HAL_GPIO_WritePin(GPIOA,
 	LED2_Pin | NSS2_Pin | RESET2_Pin | RESET1_Pin | NSS1_Pin, GPIO_PIN_RESET);
-=======
-	HAL_GPIO_WritePin(GPIOA, LED2_Pin|NSS2_Pin|RESET2_Pin|RESET1_Pin
-	|NSS1_Pin, GPIO_PIN_RESET);
->>>>>>> parent of 691b973... 290121
 
 	/*Configure GPIO pin Output Level */
 	HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
 
 	/*Configure GPIO pins : LED2_Pin NSS2_Pin RESET2_Pin RESET1_Pin
-<<<<<<< HEAD
 	 NSS1_Pin */
 	GPIO_InitStruct.Pin = LED2_Pin | NSS2_Pin | RESET2_Pin | RESET1_Pin
 			| NSS1_Pin;
-=======
-						NSS1_Pin */
-	GPIO_InitStruct.Pin = LED2_Pin|NSS2_Pin|RESET2_Pin|RESET1_Pin
-	|NSS1_Pin;
->>>>>>> parent of 691b973... 290121
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -622,18 +473,10 @@ static void MX_GPIO_Init(void)
 /* USER CODE END 4 */
 
 /**
-<<<<<<< HEAD
  * @brief  This function is executed in case of error occurrence.
  * @retval None
  */
 void Error_Handler(void) {
-=======
-* @brief  This function is executed in case of error occurrence.
-* @retval None
-*/
-void Error_Handler(void)
-{
->>>>>>> parent of 691b973... 290121
 	/* USER CODE BEGIN Error_Handler_Debug */
 	/* User can add his own implementation to report the HAL error return state */
 
@@ -642,18 +485,18 @@ void Error_Handler(void)
 
 #ifdef  USE_FULL_ASSERT
 /**
-* @brief  Reports the name of the source file and the source line number
-*         where the assert_param error has occurred.
-* @param  file: pointer to the source file name
-* @param  line: assert_param error line source number
-* @retval None
-*/
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 { 
-	/* USER CODE BEGIN 6 */
+  /* USER CODE BEGIN 6 */
 	/* User can add his own implementation to report the file name and line number,
 	tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-	/* USER CODE END 6 */
+  /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
 
