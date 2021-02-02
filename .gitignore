@@ -57,3 +57,5 @@ dkms.conf
 *.hex
 *.bin
 *.list
+.settings/language.settings.xml
+.settings/language.settings.xml

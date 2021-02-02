@@ -26,6 +26,6 @@
 void readByte(void);
 void uartInit();
 void uartReceiveHandler();
-void sendConfig(uint8_t num);
+void sendConfig(void);
 void configNode(uint8_t nodeNum);
 #endif

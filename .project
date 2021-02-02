@@ -29,14 +29,29 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>Src/common.c</name>
+			<name>Inc/SX1276.h</name>
 			<type>1</type>
-			<locationURI>WORKSPACE_LOC/common/common.c</locationURI>
+			<locationURI>WORKSPACE_LOC/common/inc/SX1276.h</locationURI>
 		</link>
 		<link>
-			<name>Src/sx127x.c</name>
+			<name>Inc/common.h</name>
 			<type>1</type>
-			<locationURI>WORKSPACE_LOC/sx127x/sx127x.c</locationURI>
+			<locationURI>WORKSPACE_LOC/common/inc/common.h</locationURI>
+		</link>
+		<link>
+			<name>Inc/protocol.h</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/common/inc/protocol.h</locationURI>
+		</link>
+		<link>
+			<name>Src/SX1276.c</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/common/src/SX1276.c</locationURI>
+		</link>
+		<link>
+			<name>Src/common.c</name>
+			<type>1</type>
+			<locationURI>WORKSPACE_LOC/common/src/common.c</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
