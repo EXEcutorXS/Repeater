@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#define RANGE_TEST
+//#define RANGE_TEST
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -292,7 +292,7 @@ int main(void)
 
 		static uint32_t lastSend = 0;
 		static bool first = true;
-		if (HAL_GetTick() - lastSend > 1000) {
+		if (HAL_GetTick() - lastSend > 1500) {
 			lastSend = HAL_GetTick();
 			if (first)
 				SX127X_transmitAsync(&myRadio1, 3);
@@ -318,30 +318,30 @@ int main(void)
 #ifndef RANGE_TEST
 		if (myRadio1.readBytes > 0) {
 			if (myRadio1.badCrc) {
-				sprintf(string, "1->2: Bad CRC\n");
-				HAL_UART_Transmit(&huart1, (uint8_t*) string, 15, 100);
+				sprintf(string, "1 to 2: Bad CRC\n");
+				HAL_UART_Transmit(&huart1, (uint8_t*) string, strlen(string), 100);
 				myRadio1.readBytes = 0;
 				continue;
 			}
 			memcpy(myRadio2.txBuf, myRadio1.rxBuf, myRadio1.readBytes);
-			sprintf(string, "1->2:  %02x %02x %02x\n", myRadio1.rxBuf[0],
+			sprintf(string, "1 to 2:  %02x %02x %02x\n", myRadio1.rxBuf[0],
 					myRadio1.rxBuf[1], myRadio1.rxBuf[2]);
-			HAL_UART_Transmit(&huart1, (uint8_t*) string, 15, 100);
+			HAL_UART_Transmit(&huart1, (uint8_t*) string, strlen(string), 100);
 			SX127X_transmitAsync(&myRadio2, myRadio1.readBytes);
 			myRadio1.readBytes = 0;
 		}
 
 		if (myRadio2.readBytes > 0) {
 			if (myRadio2.badCrc) {
-				sprintf(string, "2->1: Bad CRC\n");
-				HAL_UART_Transmit(&huart1, (uint8_t*) string, 15, 100);
+				sprintf(string, "2 to 1: Bad CRC\n");
+				HAL_UART_Transmit(&huart1, (uint8_t*) string, strlen(string), 100);
 				myRadio2.readBytes = 0;
 				continue;
 			}
 			memcpy(myRadio1.txBuf, myRadio2.rxBuf, myRadio2.readBytes);
-			sprintf(string, "2->1: %02x %02x %02x\n", myRadio2.rxBuf[0],
+			sprintf(string, "2 to 1: %02x %02x %02x\n", myRadio2.rxBuf[0],
 					myRadio2.rxBuf[1], myRadio2.rxBuf[2]);
-			HAL_UART_Transmit(&huart1, (uint8_t*) string, 15, 100);
+			HAL_UART_Transmit(&huart1, (uint8_t*) string, strlen(string), 100);
 			SX127X_transmitAsync(&myRadio1, myRadio2.readBytes);
 			myRadio2.readBytes = 0;
 		}
